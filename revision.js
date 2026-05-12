@@ -1,44 +1,42 @@
-let data = JSON.parse(localStorage.getItem("rev_data")) || [];
+let data =
+  JSON.parse(localStorage.getItem("rev_data")) || [];
 
 let currentSubject = "All";
 
-// revision pattern
-const gaps = [0, 1, 3, 7, 15, 30];
+// revision schedule
+const gaps = [0, 2, 6, 14, 29, 59];
 
 // SAVE
 function save(){
-  localStorage.setItem("rev_data", JSON.stringify(data));
-}
-
-// SUBJECT FILTER
-function setSubject(sub){
-  currentSubject = sub;
-  document.getElementById("currentView").innerText =
-    "📊 " + sub + " Chapters";
-
-  render();
+  localStorage.setItem(
+    "rev_data",
+    JSON.stringify(data)
+  );
 }
 
 // ADD ITEM
 function addItem(){
 
   let subject =
-    document.getElementById("subject").value.trim();
+    document.getElementById("subject")
+    .value.trim();
 
   let title =
-    document.getElementById("title").value.trim();
+    document.getElementById("title")
+    .value.trim();
 
   let date =
-    document.getElementById("date").value;
+    document.getElementById("date")
+    .value;
 
   if(!subject || !title || !date){
-    alert("Please fill all fields");
+    alert("Fill all fields");
     return;
   }
 
   let start = new Date(date);
 
-  // AUTO GENERATE REVISIONS
+  // CREATE REVISIONS
   let revisions = gaps.map((gap,index)=>{
 
     let d = new Date(start);
@@ -46,10 +44,11 @@ function addItem(){
     d.setDate(start.getDate() + gap);
 
     return{
-      revision: "Revision " + (index+1),
-      date: d.toISOString().split("T")[0],
+      revision:"Revision "+(index+1),
+      date:d.toISOString().split("T")[0],
       done:false
     };
+
   });
 
   data.push({
@@ -63,8 +62,8 @@ function addItem(){
   render();
 
   // CLEAR INPUTS
-  document.getElementById("title").value = "";
-  document.getElementById("date").value = "";
+  document.getElementById("title").value="";
+  document.getElementById("date").value="";
 }
 
 // TOGGLE CHECKBOX
@@ -78,22 +77,35 @@ function toggle(i,j){
   render();
 }
 
-// PROGRESS %
+// PROGRESS
 function getProgress(item){
 
   let done =
     item.revisions.filter(r=>r.done).length;
 
   return Math.round(
-    (done / item.revisions.length) * 100
+    (done/item.revisions.length)*100
   );
+}
+
+// SUBJECT FILTER
+function setSubject(subject){
+
+  currentSubject = subject;
+
+  document.getElementById(
+    "currentView"
+  ).innerText =
+    "📊 "+subject;
+
+  render();
 }
 
 // EXPORT CSV
 function exportCSV(){
 
   let csv =
-    "Subject,Chapter,Revision,Date,Status\n";
+"Subject,Chapter,Revision,Date,Status\n";
 
   data.forEach(item=>{
 
@@ -111,7 +123,7 @@ ${r.done ? "Done":"Pending"}\n`;
   });
 
   let blob =
-    new Blob([csv], {type:"text/csv"});
+    new Blob([csv],{type:"text/csv"});
 
   let url =
     URL.createObjectURL(blob);
@@ -126,8 +138,43 @@ ${r.done ? "Done":"Pending"}\n`;
   a.click();
 }
 
+// CREATE SUBJECT BUTTONS
+function renderTabs(){
+
+  let tabs =
+    document.getElementById("subjectTabs");
+
+  tabs.innerHTML = "";
+
+  // ALL BUTTON
+  tabs.innerHTML += `
+    <button onclick="setSubject('All')">
+      All
+    </button>
+  `;
+
+  // UNIQUE SUBJECTS
+  let subjects =
+    [...new Set(data.map(item=>item.subject))];
+
+  subjects.forEach(subject=>{
+
+    tabs.innerHTML += `
+      <button
+        onclick="setSubject('${subject}')"
+      >
+        ${subject}
+      </button>
+    `;
+
+  });
+
+}
+
 // RENDER TABLE
 function render(){
+
+  renderTabs();
 
   let table =
     document.getElementById("table");
@@ -137,7 +184,7 @@ function render(){
   let today =
     new Date().toISOString().split("T")[0];
 
-  // TABLE HEADER
+  // HEADER
   table.innerHTML = `
     <tr>
       <th>Chapter Name</th>
@@ -151,7 +198,7 @@ function render(){
     </tr>
   `;
 
-  // USER DATA ROWS
+  // ROWS
   data.forEach((item,i)=>{
 
     if(
@@ -163,7 +210,7 @@ function render(){
 
     let row = `<tr>`;
 
-    // CHAPTER NAME
+    // CHAPTER
     row += `
       <td class="chapter">
         <b>${item.title}</b>
@@ -175,11 +222,11 @@ function render(){
     // REVISIONS
     item.revisions.forEach((r,j)=>{
 
-      let highlight =
-        r.date === today ? "today" : "";
+      let cls =
+        r.date === today ? "today":"";
 
       row += `
-        <td class="${highlight}">
+        <td class="${cls}">
 
           <div>
             <b>${r.revision}</b>
@@ -201,7 +248,7 @@ function render(){
       `;
     });
 
-    // PROGRESS BAR
+    // PROGRESS
     let progress =
       getProgress(item);
 
@@ -211,7 +258,9 @@ function render(){
         ${progress}%
 
         <div class="progress">
-          <div style="width:${progress}%"></div>
+          <div
+            style="width:${progress}%">
+          </div>
         </div>
 
       </td>
