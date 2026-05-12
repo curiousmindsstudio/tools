@@ -1,24 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Revision Scheduler</title>
+  <title>Revision Scheduler Pro</title>
   <link rel="stylesheet" href="revision.css">
 </head>
 <body>
 
-  <h1>📚 Revision Scheduler</h1>
+  <h1>📚 Revision Dashboard</h1>
 
   <a href="index.html" class="back">⬅ Back to Tools</a>
 
+  <!-- SUBJECT TABS -->
+  <div class="tabs">
+    <button onclick="setSubject('All')">All</button>
+    <button onclick="setSubject('Biology')">Biology</button>
+    <button onclick="setSubject('Physics')">Physics</button>
+    <button onclick="setSubject('Chemistry')">Chemistry</button>
+  </div>
+
+  <!-- INPUT -->
   <div class="input-box">
 
-    <input type="text" id="title" placeholder="Enter chapter name">
+    <input type="text" id="subject" placeholder="Subject">
+    <input type="text" id="title" placeholder="Chapter name">
     <input type="date" id="date">
+
     <button onclick="addItem()">Add</button>
 
   </div>
 
-  <h2 id="subjectTitle">📘 All Subjects</h2>
+  <!-- EXPORT -->
+  <div class="export-box">
+    <button onclick="exportCSV()">⬇ Export CSV</button>
+  </div>
+
+  <h2 id="currentView">📊 All Chapters</h2>
 
   <div class="table-wrapper">
     <table id="table"></table>
@@ -27,4 +43,4 @@
   <script src="revision.js"></script>
 
 </body>
-</html>
+    </html>
