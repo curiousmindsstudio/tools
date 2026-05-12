@@ -46,3 +46,22 @@ button:disabled{
 a{
   text-decoration:none;
 }
+.main-center{
+  text-align:center;
+  margin:20px 0;
+}
+
+.main-btn{
+  padding:12px 18px;
+  font-size:16px;
+  border:none;
+  border-radius:12px;
+  background:#6c5ce7;
+  color:white;
+  cursor:pointer;
+  box-shadow:0 0 10px rgba(0,0,0,0.3);
+}
+
+.main-btn:hover{
+  background:#7f6df2;
+}
