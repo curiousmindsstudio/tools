@@ -1,6 +1,6 @@
 let data = JSON.parse(localStorage.getItem("rev_data")) || [];
 
-// revision gaps
+// revision pattern
 const gaps = [0, 1, 3, 7, 15, 30];
 
 function save(){
@@ -29,7 +29,6 @@ function addItem(){
 
   data.push({
     title,
-    startDate: date,
     revisions
   });
 
@@ -48,46 +47,54 @@ function toggle(i,j){
   render();
 }
 
-// RENDER UI
+// RENDER TABLE
 function render(){
 
-  let list = document.getElementById("list");
-  let todayBox = document.getElementById("today");
+  let table = document.getElementById("table");
 
-  list.innerHTML = "";
-  todayBox.innerHTML = "";
+  table.innerHTML = "";
 
-  let today = new Date().toISOString().split("T")[0];
+  // HEADER ROW
+  let header = `
+    <tr>
+      <th>Chapter Name</th>
+      <th>Revision 1</th>
+      <th>Revision 2</th>
+      <th>Revision 3</th>
+      <th>Revision 4</th>
+      <th>Revision 5</th>
+      <th>Revision 6</th>
+    </tr>
+  `;
 
+  table.innerHTML += header;
+
+  // DATA ROWS
   data.forEach((item,i)=>{
 
-    let card = document.createElement("div");
-    card.className = "card";
+    let row = `<tr>`;
 
-    card.innerHTML = `<h3>${item.title}</h3>`;
+    // chapter name
+    row += `<td class="chapter">${item.title}</td>`;
 
     item.revisions.forEach((r,j)=>{
 
-      card.innerHTML += `
-        <label>
-          <input type="checkbox"
-          ${r.done ? "checked":""}
-          onchange="toggle(${i},${j})">
-          ${r.date}
-        </label><br>
+      row += `
+        <td>
+          <label>
+            <input type="checkbox"
+            ${r.done ? "checked":""}
+            onchange="toggle(${i},${j})">
+            ${r.date}
+          </label>
+        </td>
       `;
-
-      if(r.date === today){
-        todayBox.innerHTML += `
-          <div class="card">
-            ${item.title} → Revision due today
-          </div>
-        `;
-      }
 
     });
 
-    list.appendChild(card);
+    row += `</tr>`;
+
+    table.innerHTML += row;
   });
 }
 
