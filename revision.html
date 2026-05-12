@@ -12,19 +12,17 @@
 
   <div class="input-box">
 
-    <input type="text" id="title" placeholder="Enter topic / chapter">
-
+    <input type="text" id="title" placeholder="Enter chapter name">
     <input type="date" id="date">
-
     <button onclick="addItem()">Add</button>
 
   </div>
 
-  <h2>📅 Today’s Revisions</h2>
-  <div id="today"></div>
+  <h2 id="subjectTitle">📘 All Subjects</h2>
 
-  <h2>📊 All Items</h2>
-  <div id="list"></div>
+  <div class="table-wrapper">
+    <table id="table"></table>
+  </div>
 
   <script src="revision.js"></script>
 
