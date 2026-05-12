@@ -1,41 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Revision Scheduler Pro</title>
+  <title>Revision Dashboard</title>
   <link rel="stylesheet" href="revision.css">
 </head>
 <body>
 
   <h1>📚 Revision Dashboard</h1>
 
-  <a href="index.html" class="back">⬅ Back to Tools</a>
+  <a href="index.html" class="back">
+    ⬅ Back to Tools
+  </a>
 
-  <!-- SUBJECT TABS -->
-  <div class="tabs">
-    <button onclick="setSubject('All')">All</button>
-    <button onclick="setSubject('Biology')">Biology</button>
-    <button onclick="setSubject('Physics')">Physics</button>
-    <button onclick="setSubject('Chemistry')">Chemistry</button>
-  </div>
+  <!-- SUBJECT FILTER BUTTONS -->
+  <div id="subjectTabs" class="tabs"></div>
 
-  <!-- INPUT -->
+  <!-- INPUT SECTION -->
   <div class="input-box">
 
-    <input type="text" id="subject" placeholder="Subject">
-    <input type="text" id="title" placeholder="Chapter name">
-    <input type="date" id="date">
+    <input
+      type="text"
+      id="subject"
+      placeholder="Enter subject"
+    >
 
-    <button onclick="addItem()">Add</button>
+    <input
+      type="text"
+      id="title"
+      placeholder="Enter chapter/topic"
+    >
+
+    <input
+      type="date"
+      id="date"
+    >
+
+    <button onclick="addItem()">
+      Add
+    </button>
 
   </div>
 
   <!-- EXPORT -->
   <div class="export-box">
-    <button onclick="exportCSV()">⬇ Export CSV</button>
+    <button onclick="exportCSV()">
+      ⬇ Export CSV
+    </button>
   </div>
 
-  <h2 id="currentView">📊 All Chapters</h2>
+  <h2 id="currentView">
+    📊 All Subjects
+  </h2>
 
+  <!-- TABLE -->
   <div class="table-wrapper">
     <table id="table"></table>
   </div>
@@ -43,4 +60,4 @@
   <script src="revision.js"></script>
 
 </body>
-    </html>
+  </html>
